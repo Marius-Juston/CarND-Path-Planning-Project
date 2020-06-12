@@ -59,9 +59,11 @@ int main() {
 
   int lane = 1;
   double ref_vel = 49.5;
+  double ref_vel = 0;
+  double max_vel = 49.75;
 
   h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s,
-                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel]
+                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel, &max_vel]
                   (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                    uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -106,13 +108,50 @@ int main() {
            */
 
           int prev_size = previous_path_x.size();
+
+          if (prev_size > 0) {
+            car_s = end_path_s;
+          }
+
+          bool too_close = false;
+          float front_car_speed;
+
+          for (auto &other_car : sensor_fusion) {
+            float d = other_car[6];
+
+            if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
+//              Car in my lane
+              double vx = other_car[3];
+              double vy = other_car[4];
+              double check_speed = sqrt(vx * vx + vy * vy);
+              double check_car_s = other_car[5];
+
+              check_car_s += ((double) prev_size * .02 * check_speed);
+
+              if ((check_car_s > car_s) && ((check_car_s - car_s)) < 30) {
+//                If the car is closer to 30
+                front_car_speed = check_speed * 2.2369362920544;
+                too_close = true;
+              }
+            }
+          }
+
+          if (too_close) {
+            if(ref_vel > front_car_speed){
+              ref_vel -= .224;
+            }
+          }else if(ref_vel < max_vel){
+            ref_vel += .224;
+          }
+
           vector<double> ptsx;
           vector<double> ptsy;
           double ref_x = car_x;
           double ref_y = car_y;
           double ref_yaw = deg2rad(car_yaw);
 
-          std::cout << prev_size << std::endl;
+          std::cout << ref_x << '\t' << ref_y << '\t' << ref_yaw << std::endl;
+
           if (prev_size < 2) {
             double prev_car_x = car_x - cos(ref_yaw);
             double prev_car_y = car_y - sin(ref_yaw);
