@@ -58,7 +58,6 @@ int main() {
   }
 
   int lane = 1;
-  double ref_vel = 49.5;
   double ref_vel = 0;
   double max_vel = 49.75;
 
