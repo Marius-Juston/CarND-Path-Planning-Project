@@ -59,10 +59,11 @@ int main() {
 
   int lane = 1;
   double ref_vel = 0;
-  double max_vel = 49.75;
+  double max_vel = 49.5;
+  double max_acceleration = .75;
 
   h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s,
-                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel, &max_vel]
+                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel, &max_vel, &max_acceleration]
                   (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                    uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -137,10 +138,10 @@ int main() {
 
           if (too_close) {
             if(ref_vel > front_car_speed){
-              ref_vel -= .224;
+              ref_vel -= max_acceleration;
             }
           }else if(ref_vel < max_vel){
-            ref_vel += .224;
+            ref_vel += max_acceleration;
           }
 
           vector<double> ptsx;
