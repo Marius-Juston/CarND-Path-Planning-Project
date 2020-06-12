@@ -7,6 +7,8 @@
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/src/Eigen-3.3" />
+      <file path="$PROJECT_DIR$/src/json" />
+      <file path="$PROJECT_DIR$/src/uWebSockets" />
     </excludeRoots>
   </component>
   <component name="JavaScriptSettings">
