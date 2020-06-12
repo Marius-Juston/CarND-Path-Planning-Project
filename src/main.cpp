@@ -137,10 +137,10 @@ int main() {
           }
 
           if (too_close) {
-            if(ref_vel > front_car_speed){
+            if (ref_vel > front_car_speed) {
               ref_vel -= max_acceleration;
             }
-          }else if(ref_vel < max_vel){
+          } else if (ref_vel < max_vel) {
             ref_vel += max_acceleration;
           }
 
