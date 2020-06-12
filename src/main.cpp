@@ -1,4 +1,10 @@
+#ifdef _WIN32
+#include "uWebSockets/src/uWS.h"
+#endif
+#ifdef __unix__
 #include <uWS/uWS.h>
+#endif
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -6,8 +12,6 @@
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "helpers.h"
-//#include "json/single_include/nlohmann/json.hpp"
-//#include "uWebSockets/src/uWS.h"
 #include "json.hpp"
 
 // for convenience
