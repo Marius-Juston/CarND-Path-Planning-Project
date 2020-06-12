@@ -26,7 +26,8 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
     }
   }
 
-  laneSpeeds(important_vehicles);
+  vector<double> speeds = laneSpeeds(important_vehicles);
+  vector<double> speedCosts = inefficiencyCost(speeds);
 
   return {};
 }
