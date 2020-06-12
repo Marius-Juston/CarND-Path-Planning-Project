@@ -26,8 +26,8 @@
 #define htobe64(x) htonll(x)
 #define be64toh(x) ntohll(x)
 #define __thread __declspec(thread)
-#define pthread_t DWORD
-#define pthread_self GetCurrentThreadId
+#define pthread_t_2 DWORD
+#define pthread_self_2 GetCurrentThreadId
 #define WIN32_EXPORT __declspec(dllexport)
 
 inline void close(SOCKET fd) {closesocket(fd);}
@@ -114,7 +114,7 @@ struct WIN32_EXPORT NodeData {
     SSL_CTX *clientContext;
 
     uv_async_t *async = nullptr;
-    pthread_t tid;
+    pthread_t_2 tid;
 
     struct TransferData {
         uv_poll_t *p;

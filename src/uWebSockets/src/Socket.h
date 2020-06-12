@@ -360,7 +360,7 @@ public:
     }
 
     void changePoll(SocketData *socketData) {
-        if (socketData->nodeData->tid != pthread_self()) {
+        if (socketData->nodeData->tid != pthread_self_2()) {
             socketData->nodeData->asyncMutex->lock();
             socketData->nodeData->changePollQueue.push_back(p);
             socketData->nodeData->asyncMutex->unlock();

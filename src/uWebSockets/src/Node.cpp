@@ -32,7 +32,7 @@ Node::Node(int recvLength, int prePadding, int postPadding, bool useDefaultLoop)
     nodeData->recvBuffer = nodeData->recvBufferMemoryBlock + prePadding;
     nodeData->recvLength = recvLength - prePadding - postPadding;
 
-    nodeData->tid = pthread_self();
+    nodeData->tid = pthread_self_2();
 
     if (useDefaultLoop) {
         loop = uv_default_loop();
@@ -54,7 +54,7 @@ Node::Node(int recvLength, int prePadding, int postPadding, bool useDefaultLoop)
 }
 
 void Node::run() {
-    nodeData->tid = pthread_self();
+    nodeData->tid = pthread_self_2();
 
     uv_run(loop, UV_RUN_DEFAULT);
 }
