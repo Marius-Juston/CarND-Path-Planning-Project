@@ -21,7 +21,7 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
 
   for (const auto &vehicle : vehicles) {
     vehicle_s = vehicle[5];
-    if (vehicle_s > currentS && vehicle_s < lookAhead) {
+    if (vehicle_s > currentS && vehicle_s < currentS + lookAhead) {
       important_vehicles.push_back(vehicle);
     }
   }
