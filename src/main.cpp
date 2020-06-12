@@ -67,7 +67,7 @@ int main() {
 
       auto s = hasData(data);
 
-      if (s != "") {
+      if (!s.empty()) {
         auto j = json::parse(s);
 
         string event = j[0].get<string>();
@@ -104,6 +104,15 @@ int main() {
            *   sequentially every .02 seconds
            */
 
+          double dist_inc = 0.5;
+          for (int i = 0; i < 50; ++i) {
+            double next_s = car_s + (i + 1) * dist_inc;
+            double next_d = 6;
+            vector<double> x_y = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+
+            next_x_vals.push_back(x_y[0]);
+            next_y_vals.push_back(x_y[1]);
+          }
 
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
