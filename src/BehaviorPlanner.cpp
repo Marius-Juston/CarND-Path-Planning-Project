@@ -52,7 +52,7 @@ vector<double> BehaviorPlanner::laneSpeeds(vector<vector<double>> &vehicles) {
 }
 
 vector<double> BehaviorPlanner::inefficiencyCost(const vector<double> &laneSpeeds) {
-  vector<double> costs(laneSpeeds.size());
+  vector<double> costs;
 
   for (double laneSpeed : laneSpeeds) {
     costs.push_back((maxSpeed - laneSpeed) / maxSpeed);
