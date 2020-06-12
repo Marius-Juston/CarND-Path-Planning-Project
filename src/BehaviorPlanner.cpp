@@ -44,7 +44,7 @@ vector<double> BehaviorPlanner::laneSpeeds(vector<vector<double>> &vehicles) {
     lane = floor(vehicle_d / 4);
 
     if (speed[lane] > vehicle_speed) {
-      speed[lane] = vehicle_speed;
+      speed[lane] = vehicle_speed *  2.2369362920544;
     }
   }
 
