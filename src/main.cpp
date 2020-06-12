@@ -131,10 +131,10 @@ int main() {
             ref_yaw = atan2(ref_y - ref_y_prev, ref_x - ref_x_prev);
 
             ptsx.push_back(ref_x_prev);
-            ptsx.push_back(car_x);
+            ptsx.push_back(ref_x);
 
             ptsy.push_back(ref_y_prev);
-            ptsy.push_back(car_y);
+            ptsy.push_back(ref_y);
           }
 
           vector<double>
