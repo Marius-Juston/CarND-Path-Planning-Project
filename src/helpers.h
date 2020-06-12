@@ -1,7 +1,7 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
-#include <math.h>
+#include <cmath>
 #include <string>
 #include <vector>
 
