@@ -25,7 +25,9 @@ class BehaviorPlanner {
   double lookAhead;
   double maxSpeed;
   vector<double> laneSpeeds(vector<vector<double>> &vehicles);
-  vector<double> inefficiencyCost(const vector<double>& laneSpeeds);
+  vector<double> inefficiencyCost(const vector<double> &laneSpeeds);
+  vector<double> laneChangeCost(int currentLane);
+  vector<double> calculateCosts(vector<vector<double>> costs);
 
   string state;
   int lane = 1;
