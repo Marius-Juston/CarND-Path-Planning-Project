@@ -20,9 +20,13 @@ The highway's waypoints loop around so the frenet s value, distance along the ro
 ## Basic Build Instructions
 
 1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./path_planning`.
+2. If on Linux or Mac
+   1. Make a build directory: `mkdir build && cd build`
+   2. Compile: `cmake .. && make`
+   3. Run it: `./path_planning`.
+3. If on Windows using CLion
+   1. Download the Linux subsystem from the microsoft store for your computer
+   2. Follow these steps in order to configure your compiler: https://www.jetbrains.com/help/clion/how-to-use-wsl-development-environment-in-clion.html 
 
 Here is the data provided from the Simulator to the C++ Program
 
@@ -140,6 +144,17 @@ that's just a guess.
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+## Discussion
 
+For this project I worked incrementally in order to get the car running as smoothly as I could:
+1. I started by following the Udacity walkthrough which allowed me to get a basic setup of the car working:
+   * The car would slow down behind other cars in front of it within a certain distance; however, this was based on a fixed distance
+   * The car could smoothly turn using the splines code from one lane to another; however, it did not account for max acceleration/ jerk
+   * The car could relatively smoothly accelerate and decelerate, using incremental velocity change
+2. From there I first made it so that when it the car was behind a vehicle, the car use the car in front's velocity and use that as its own, (all velocities were in m/s so I had to convert all the units to mph)
+3. After I started implementing a behavior planner:
+   1. The first cost I used was an speed cost, I found the speed of each lane based on the slowest vehicle in the lane and then got the linear difference to the max speed of the car, if the lane was empty the speed was the max speed
+      * `(max_speed - lane_speed) / max_speed`
+   2. I then implemented a lane change cost, I made the car want to stay in its lane if possible and the further away it had to change lane to the higher the cost, since the max it could change was 2 I the cost by dividing it by 2
+      * ((lane - current_lane) / 2.) ** 2
+   3. I then implemented a very rudementary collision detection cost function based on constant velocity model and the car moving at the lane speed
