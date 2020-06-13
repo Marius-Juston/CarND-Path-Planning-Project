@@ -13,8 +13,6 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
                                               const vector<vector<double>> &vehicles) {
   lane = currentLane;
 
-  vector<float> costs(3);
-
   double vehicle_s;
 
   vector<vector<double>> important_vehicles;
@@ -28,6 +26,13 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
 
   vector<double> speeds = laneSpeeds(important_vehicles);
   vector<double> speedCosts = inefficiencyCost(speeds);
+  vector<double> laneChangeCosts = laneChangeCost(currentLane);
+  vector<double> costs = calculateCosts({laneChangeCosts, speedCosts});
+
+  for (const auto cost: costs) {
+    cout << cost << ' ';
+  }
+  cout << endl;
 
   return {};
 }
@@ -45,7 +50,7 @@ vector<double> BehaviorPlanner::laneSpeeds(vector<vector<double>> &vehicles) {
     lane = floor(vehicle_d / 4);
 
     if (speed[lane] > vehicle_speed) {
-      speed[lane] = vehicle_speed *  2.2369362920544;
+      speed[lane] = vehicle_speed * 2.2369362920544;
     }
   }
 
@@ -55,6 +60,7 @@ vector<double> BehaviorPlanner::laneSpeeds(vector<vector<double>> &vehicles) {
 vector<double> BehaviorPlanner::inefficiencyCost(const vector<double> &laneSpeeds) {
   vector<double> costs;
 
+  costs.reserve(laneSpeeds.size());
   for (double laneSpeed : laneSpeeds) {
     costs.push_back((maxSpeed - laneSpeed) / maxSpeed);
   }

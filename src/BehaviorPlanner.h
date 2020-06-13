@@ -34,6 +34,7 @@ class BehaviorPlanner {
 
   string state;
   int lane = 1;
+//  const vector<double> WEIGHTS = {pow(10, 6), pow(10, 5)};
   const vector<double> WEIGHTS = {1, 1};
 };
 
