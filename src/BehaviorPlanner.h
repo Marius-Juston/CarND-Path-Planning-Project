@@ -29,6 +29,7 @@ class BehaviorPlanner {
 
   string state;
   int lane = 1;
+  const vector<double> WEIGHTS = {1, 1};
 };
 
 #endif //PATH_PLANNING_SRC_BEHAVIORPLANNER_H_

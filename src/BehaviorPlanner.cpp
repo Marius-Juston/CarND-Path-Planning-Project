@@ -70,3 +70,14 @@ vector<double> BehaviorPlanner::laneChangeCost(int currentLane) {
 
   return costs;
 }
+vector<double> BehaviorPlanner::calculateCosts(vector<vector<double>> costs) {
+  vector<double> costsC(3, 0.);
+
+  for (int i = 0; i < WEIGHTS.size(); ++i) {
+    for (int y = 0; y < 3; ++y) {
+      costsC[y] += costs[i][y] * WEIGHTS[i];
+    }
+  }
+
+  return costsC;
+}
