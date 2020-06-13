@@ -9,6 +9,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
 using std::vector;
 using std::cout;
@@ -35,7 +36,7 @@ class BehaviorPlanner {
   string state;
   int lane = 1;
 //  const vector<double> WEIGHTS = {pow(10, 6), pow(10, 5)};
-  const vector<double> WEIGHTS = {1, 1};
+  const vector<double> WEIGHTS = {1, 1.5};
 };
 
 #endif //PATH_PLANNING_SRC_BEHAVIORPLANNER_H_
