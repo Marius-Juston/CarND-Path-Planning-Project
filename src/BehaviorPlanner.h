@@ -8,8 +8,11 @@
 #include <string>
 #include <vector>
 #include <cmath>
-using std::vector;
+#include <iostream>
 
+using std::vector;
+using std::cout;
+using std::endl;
 using std::string;
 
 struct NewPosition {
