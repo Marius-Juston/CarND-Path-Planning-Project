@@ -116,10 +116,10 @@ int main() {
           double delta = (p.lane * 4 + 2 - car_d);
           lane = p.lane;
 
-          double multiplier = 1;
+          double multiplier = 1.1;
           if (abs(delta) >= 4.5) {
             cout << "Reducing Curve!" << endl;
-            multiplier = 2.0;
+            multiplier = 1.25;
           }
 
           if (prev_size > 0) {
