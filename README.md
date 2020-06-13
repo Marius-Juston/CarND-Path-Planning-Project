@@ -158,3 +158,14 @@ For this project I worked incrementally in order to get the car running as smoot
    2. I then implemented a lane change cost, I made the car want to stay in its lane if possible and the further away it had to change lane to the higher the cost, since the max it could change was 2 I the cost by dividing it by 2
       * ((lane - current_lane) / 2.) ** 2
    3. I then implemented a very rudementary collision detection cost function based on constant velocity model and the car moving at the lane speed
+      * If there would be a possible collision the the cost would be 1
+      * It uses the constant velocity model (s + v * dt), where dt = 0.02s the simulation timestep
+      * If you are on the leftmost/rightmost lane and you are trying to go to the other side but the middle lane is blocked, the opposite side is also blocked
+      * for each car velocity converted to mph instead of m/s
+      * If the car is less 25 in front of the car, or 5 behind the car then the lane is blocked
+  4. After trial and error of weight testing I finally a ratio that worked really well:
+      * 0.3 for lane change, this is reletively small so that the car is not just stuck in a single lane
+      * 1.75 for the speed difference this means that it is important that the car is in the fastest lane
+      * 10 for the collision, we DO NOT want any collisions so very big priority
+        * if all the lanes are blocked due cars then stay in lane
+  5. From there I tried minimizing the jerk on the car when it was traveling to the complete opposite lane. In order to do so I made it so that if the delta d for the lane change based on the current d was greater than a single lane change (4), that the controlling spline would be lengthened by a factor thus smoothing the spline and reducing the jerk.
