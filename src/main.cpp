@@ -141,7 +141,7 @@ int main() {
 
               check_car_s += ((double) prev_size * .02 * check_speed);
 
-              if ((check_car_s > car_s) && ((check_car_s - car_s)) < 30) {
+              if ((check_car_s > car_s) && ((check_car_s - car_s)) < 25) {
 //                If the car is closer to 30
                 front_car_speed = check_speed * 2.2369362920544;
                 too_close = true;
