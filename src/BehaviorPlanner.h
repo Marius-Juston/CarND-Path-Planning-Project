@@ -24,7 +24,10 @@ struct NewPosition {
 class BehaviorPlanner {
  public:
   explicit BehaviorPlanner(double lookAhead, double max_speed);
-  NewPosition chooseNextStates(int currentLane, double currentS, const vector<vector<double>> &vehicles);
+  NewPosition chooseNextStates(int currentLane,
+                               double currentS,
+                               double carSpeed,
+                               const vector<vector<double>> &vehicles);
  private:
   double lookAhead;
   double maxSpeed;
@@ -39,8 +42,8 @@ class BehaviorPlanner {
   const vector<double> WEIGHTS = {.3, 1.75, 10};
   vector<double> impossibleLaneCost(double currentS,
                                     int currentLane,
-                                    const vector<vector<double>> &vehicles,
-                                    const vector<double> &laneSpeeds);
+                                    double carSpeed,
+                                    const vector<vector<double>> &vehicles);
 };
 
 #endif //PATH_PLANNING_SRC_BEHAVIORPLANNER_H_

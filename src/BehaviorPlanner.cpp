@@ -10,6 +10,7 @@ BehaviorPlanner::BehaviorPlanner(double look_ahead, double max_speed) {
 
 NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
                                               double currentS,
+                                              double carSpeed,
                                               const vector<vector<double>> &vehicles) {
   lane = currentLane;
 
@@ -27,7 +28,7 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
   vector<double> speeds = laneSpeeds(important_vehicles);
   vector<double> speedCosts = inefficiencyCost(speeds);
   vector<double> laneChangeCosts = laneChangeCost(currentLane);
-  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, currentLane, vehicles, speeds);
+  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, currentLane, carSpeed, vehicles);
 
   vector<double> costs = calculateCosts({laneChangeCosts, speedCosts, impossibleLaneCosts});
 
@@ -103,22 +104,22 @@ vector<double> BehaviorPlanner::calculateCosts(vector<vector<double>> costs) {
   return costsC;
 }
 vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
-                                                   int currentLane,
-                                                   const vector<vector<double>> &vehicles,
-                                                   const vector<double> &laneSpeeds) {
+                                                   int currentLane, double carSpeed,
+                                                   const vector<vector<double>> &vehicles) {
   int lane;
   double s;
   double vehicle_speed;
-  double dt = 2;
+  double dt = .02;
 
   vector<double> cost(3, 0);
   double diff;
+  double nextCarPos = (currentS + carSpeed * dt);
 
   for (const auto &vehicle : vehicles) {
     lane = floor(vehicle[6] / 4);
     s = vehicle[5];
     vehicle_speed = sqrt((vehicle[3] * vehicle[3]) + (vehicle[4] * vehicle[4])) * 2.2369362920544;
-    diff = (s + vehicle_speed * dt) - (currentS + laneSpeeds[lane] * dt);
+    diff = (s + vehicle_speed * dt) - nextCarPos;
 
 //    cout << diff << endl;
 
@@ -129,7 +130,7 @@ vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
 
   if (cost[1] == 1.) {
     if (currentLane == 0 || currentLane == 2)
-    cost[2 - currentLane] = 1;
+      cost[2 - currentLane] = 1;
   }
 
   return cost;

@@ -112,7 +112,7 @@ int main() {
 
           int prev_size = previous_path_x.size();
 
-          NewPosition p = behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
+          NewPosition p = behavior_planner.chooseNextStates(lane, car_s, car_speed, sensor_fusion);
           double delta = (p.lane * 4 + 2 - car_d);
           lane = p.lane;
 
