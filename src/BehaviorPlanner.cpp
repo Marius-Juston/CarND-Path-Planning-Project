@@ -61,3 +61,12 @@ vector<double> BehaviorPlanner::inefficiencyCost(const vector<double> &laneSpeed
 
   return costs;
 }
+vector<double> BehaviorPlanner::laneChangeCost(int currentLane) {
+  vector<double> costs(3);
+
+  for (int lane = 0; lane < 3; ++lane) {
+    costs[lane] = abs(lane - currentLane) / 2;
+  }
+
+  return costs;
+}
