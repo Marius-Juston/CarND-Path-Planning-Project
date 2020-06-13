@@ -27,12 +27,13 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
   vector<double> speeds = laneSpeeds(important_vehicles);
   vector<double> speedCosts = inefficiencyCost(speeds);
   vector<double> laneChangeCosts = laneChangeCost(currentLane);
-  vector<double> costs = calculateCosts({laneChangeCosts, speedCosts});
+  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, important_vehicles, speeds);
+
+  vector<double> costs = calculateCosts({laneChangeCosts, speedCosts, impossibleLaneCosts});
 
   auto min_lane = std::min_element(costs.begin(), costs.end()) - costs.begin();
 
   for (const auto cost: costs) {
-
     cout << cost << ' ';
   }
   cout << '\t' << min_lane;
@@ -93,4 +94,30 @@ vector<double> BehaviorPlanner::calculateCosts(vector<vector<double>> costs) {
   }
 
   return costsC;
+}
+vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
+                                                   const vector<vector<double>> &vehicles,
+                                                   const vector<double> &laneSpeeds) {
+  int lane;
+  double s;
+  double vehicle_speed;
+  double dt = 2;
+
+  vector<double> cost(3, 0);
+  double diff;
+
+  for (const auto &vehicle : vehicles) {
+    lane = floor(vehicle[6] / 4);
+    s = vehicle[5];
+    vehicle_speed = sqrt((vehicle[3] * vehicle[3]) + (vehicle[4] * vehicle[4])) * 2.2369362920544;
+    diff = (s + vehicle_speed * dt) - (currentS + laneSpeeds[lane] * dt);
+
+//    cout << diff << endl;
+
+    if (diff > 0 && diff < 35) {
+      cost[lane] = 1.;
+    }
+  }
+
+  return cost;
 }
