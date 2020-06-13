@@ -27,7 +27,7 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
   vector<double> speeds = laneSpeeds(important_vehicles);
   vector<double> speedCosts = inefficiencyCost(speeds);
   vector<double> laneChangeCosts = laneChangeCost(currentLane);
-  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, important_vehicles, speeds);
+  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, currentLane, important_vehicles, speeds);
 
   vector<double> costs = calculateCosts({laneChangeCosts, speedCosts, impossibleLaneCosts});
 
@@ -103,6 +103,7 @@ vector<double> BehaviorPlanner::calculateCosts(vector<vector<double>> costs) {
   return costsC;
 }
 vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
+                                                   int currentLane,
                                                    const vector<vector<double>> &vehicles,
                                                    const vector<double> &laneSpeeds) {
   int lane;
@@ -121,9 +122,14 @@ vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
 
 //    cout << diff << endl;
 
-    if (diff > 0 && diff < 35) {
+    if (diff > 0 && diff < 25) {
       cost[lane] = 1.;
     }
+  }
+
+  if (cost[1] == 1.) {
+    if (currentLane == 0 || currentLane == 2)
+    cost[2 - currentLane] = 1;
   }
 
   return cost;
