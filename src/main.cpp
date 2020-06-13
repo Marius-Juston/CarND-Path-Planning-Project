@@ -114,11 +114,13 @@ int main() {
 
           NewPosition p = behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
           int delta = (p.lane - lane);
+          lane = p.lane;
 
-          if(delta != 0) {
-            lane = lane + delta / abs(delta);
+          double multiplier = 1;
+          if (abs(delta) >= 2) {
+            cout << "Reducing Curve!" << endl;
+            multiplier = 2.0;
           }
-//          lane = p.lane;
 
           if (prev_size > 0) {
             car_s = end_path_s;
@@ -188,11 +190,11 @@ int main() {
           }
 
           vector<double>
-              next_wp0 = getXY(car_s + 30, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+              next_wp0 = getXY(car_s + 30 * multiplier, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double>
-              next_wp1 = getXY(car_s + 60, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+              next_wp1 = getXY(car_s + 60 * multiplier, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double>
-              next_wp2 = getXY(car_s + 90, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+              next_wp2 = getXY(car_s + 90 * multiplier, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
           ptsx.push_back(next_wp0[0]);
           ptsx.push_back(next_wp1[0]);
@@ -221,7 +223,7 @@ int main() {
             next_y_vals.push_back(previous_path_y[i]);
           }
 
-          double target_x = 30;
+          double target_x = 30 * multiplier;
           double target_y = spline(target_x);
           double target_dist = sqrt((target_x * target_x) + (target_y * target_y));
           double x_add_on = 0;
