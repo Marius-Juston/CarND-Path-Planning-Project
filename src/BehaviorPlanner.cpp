@@ -27,7 +27,7 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
   vector<double> speeds = laneSpeeds(important_vehicles);
   vector<double> speedCosts = inefficiencyCost(speeds);
   vector<double> laneChangeCosts = laneChangeCost(currentLane);
-  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, currentLane, important_vehicles, speeds);
+  vector<double> impossibleLaneCosts = impossibleLaneCost(currentS, currentLane, vehicles, speeds);
 
   vector<double> costs = calculateCosts({laneChangeCosts, speedCosts, impossibleLaneCosts});
 
