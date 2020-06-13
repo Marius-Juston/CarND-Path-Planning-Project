@@ -36,7 +36,7 @@ class BehaviorPlanner {
   string state;
   int lane = 1;
 //  const vector<double> WEIGHTS = {pow(10, 6), pow(10, 5)};
-  const vector<double> WEIGHTS = {.25, 1.5, 2};
+  const vector<double> WEIGHTS = {.5, 1.5, 2};
   vector<double> impossibleLaneCost(double currentS,
                                     const vector<vector<double>> &vehicles,
                                     const vector<double> &laneSpeeds);
