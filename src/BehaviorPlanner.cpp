@@ -31,6 +31,13 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
 
   vector<double> costs = calculateCosts({laneChangeCosts, speedCosts, impossibleLaneCosts});
 
+  if (impossibleLaneCosts[0] + impossibleLaneCosts[1] + impossibleLaneCosts[2] == 3.) {
+    NewPosition position{};
+    position.lane = currentLane;
+
+    return position;
+  }
+
   auto min_lane = std::min_element(costs.begin(), costs.end()) - costs.begin();
 
   for (const auto cost: costs) {
