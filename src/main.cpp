@@ -112,8 +112,8 @@ int main() {
 
           int prev_size = previous_path_x.size();
 
-          behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
-
+          NewPosition p = behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
+          lane = p.lane;
 
           if (prev_size > 0) {
             car_s = end_path_s;

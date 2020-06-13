@@ -29,12 +29,19 @@ NewPosition BehaviorPlanner::chooseNextStates(int currentLane,
   vector<double> laneChangeCosts = laneChangeCost(currentLane);
   vector<double> costs = calculateCosts({laneChangeCosts, speedCosts});
 
+  auto min_lane = std::min_element(costs.begin(), costs.end()) - costs.begin();
+
   for (const auto cost: costs) {
+
     cout << cost << ' ';
   }
+  cout << '\t' << min_lane;
   cout << endl;
 
-  return {};
+  NewPosition position{};
+  position.lane = min_lane;
+
+  return position;
 }
 
 vector<double> BehaviorPlanner::laneSpeeds(vector<vector<double>> &vehicles) {
