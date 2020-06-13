@@ -113,11 +113,11 @@ int main() {
           int prev_size = previous_path_x.size();
 
           NewPosition p = behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
-          int delta = (p.lane - lane);
+          double delta = (p.lane * 4 + 2 - car_d);
           lane = p.lane;
 
           double multiplier = 1;
-          if (abs(delta) >= 2) {
+          if (abs(delta) >= 4.5) {
             cout << "Reducing Curve!" << endl;
             multiplier = 2.0;
           }
