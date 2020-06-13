@@ -14,6 +14,7 @@
 #include "helpers.h"
 #include "json.hpp"
 #include "spline.h"
+#include "BehaviorPlanner.h"
 
 // for convenience
 using nlohmann::json;
@@ -62,8 +63,10 @@ int main() {
   double max_vel = 49.5;
   double max_acceleration = .75;
 
+  BehaviorPlanner behavior_planner(100., max_vel);
+
   h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s,
-                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel, &max_vel, &max_acceleration]
+                  &map_waypoints_dx, &map_waypoints_dy, &lane, &ref_vel, &max_vel, &max_acceleration, &behavior_planner]
                   (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                    uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -109,6 +112,9 @@ int main() {
 
           int prev_size = previous_path_x.size();
 
+          behavior_planner.chooseNextStates(lane, car_s, sensor_fusion);
+
+
           if (prev_size > 0) {
             car_s = end_path_s;
           }
@@ -150,7 +156,7 @@ int main() {
           double ref_y = car_y;
           double ref_yaw = deg2rad(car_yaw);
 
-          std::cout << ref_x << '\t' << ref_y << '\t' << ref_yaw << std::endl;
+//          std::cout << ref_x << '\t' << ref_y << '\t' << ref_yaw << std::endl;
 
           if (prev_size < 2) {
             double prev_car_x = car_x - cos(ref_yaw);
