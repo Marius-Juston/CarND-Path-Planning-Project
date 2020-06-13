@@ -122,7 +122,7 @@ vector<double> BehaviorPlanner::impossibleLaneCost(double currentS,
 
 //    cout << diff << endl;
 
-    if (diff > 0 && diff < 25) {
+    if (diff > -5 && diff < 25) {
       cost[lane] = 1.;
     }
   }
